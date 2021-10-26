@@ -10,7 +10,8 @@ export default class Label extends React.Component {
 			margin:0
 		}
 		return(
-			<p style={labelStyle}>{this.props.color}</p>
+			<p style={labelStyle}
+			onClick={this.props.onColorChange}>{this.props.color}</p>
 		)
 	}
 }

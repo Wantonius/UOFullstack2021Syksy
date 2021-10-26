@@ -11,6 +11,18 @@ export default class Card extends React.Component {
 		}
 	}
 	
+	onColorChange = () => {
+		const letters = "ABCDEF0123456789";
+		let color = "#";
+		for(let i=0;i<6;i++) {
+			let temp = Math.floor(Math.random()*16);
+			color = color + letters[temp];
+		}
+		this.setState({
+			color:color
+		})
+	}
+	
 	render() {
 		let cardStyle= {
 			height:200,
@@ -22,7 +34,7 @@ export default class Card extends React.Component {
 		return(
 			<div style={cardStyle}>
 				<Square color={this.state.color}/>
-				<Label color={this.state.color}/>
+				<Label color={this.state.color} onColorChange={this.onColorChange}/>
 			</div>
 		)
 	}
