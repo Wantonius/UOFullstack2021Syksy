@@ -1,0 +1,47 @@
+Project Work-info
+
+Aim: Everyone creates a simple full-stack application preferably using MERN stack. Database and backend can be changed but frontend 
+should be React. Application will have a frontend, backend and a database. It will also have some kind of user management and session management. Groups of 1-3 people.
+
+Timetable: Project should be finished at the end of the course.
+
+Required parts:
+		- Application
+		- Public git (github, gitlab or bitbucket) to display the code and documentation
+		- Simple manual
+
+Optional but suggested parts:
+		- Simple software design document (4-5 pages of text plus the diagrams and explanations)
+			- Architecture design
+			- Class design
+			- Database design
+			- UI mocks
+			- Static and dynamic flow design (UML: use cases, class diagrams, sequence diagrams)
+			- Explanation of the technologies used
+			- Future (what could be added, changed etc)
+			Examples: https://www.toptal.com/freelance/why-design-documents-matter
+			
+
+Possible applications:
+	- Own idea
+	
+	1. Copygram
+		Make a simple instagram copy. Users need to log in to add new pictures and comment on other pictures.
+		Pictures are displayed newest first. Only the user who has added the picture can remove it or its comments.
+		All logged users can comment all pictures. All pictures added are public. No private pictures.
+		
+		Bonus: Add multiple different search filters for pictures. Add tags to pictures
+	
+	2. ToDo app
+		Simple ToDo app. ToDos have description and state. States are atleast "pending" and "done". Optionally
+		todos can have a deadline thus adding a state "late". Done todos are not removed but instead are moved
+		to a different page to be displayed. They can be removed from there. All users have their own todos.
+		
+		This is mostly a frontend project. Make your todos look like post-its or such.
+		
+	3. Top Three lists
+		An application for creating and liking top three song lists. Each list contains three songs. Song has the
+		name of the song, description and url link to youtube or such. For example "My top three christmas songs".
+		Lists have a name, description and tags. Tags can be used to search for lists. Lists are always displayed
+		in the order of most likes. Only the user who created the list can remove or edit the list. Users can add new songs
+		or use songs added by others to create new lists.
