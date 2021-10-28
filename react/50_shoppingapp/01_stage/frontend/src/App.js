@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import ShoppingForm from './components/ShoppingForm';
+import ShoppingList from './components/ShoppingList';
 import React from 'react';
 class App extends React.Component {
 	
@@ -9,6 +10,10 @@ class App extends React.Component {
 		this.state = {
 			list:[]
 		}
+	}
+	
+	componentDidMount() {
+		this.getList();
 	}
 	
 	getList = async () => {
@@ -52,6 +57,8 @@ class App extends React.Component {
 		return (
 			<div className="App">
 				<ShoppingForm addToList={this.addToList}/>
+				<hr/>
+				<ShoppingList list={this.state.list}/>
 			</div>
 		);
 	}
