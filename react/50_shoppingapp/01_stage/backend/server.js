@@ -28,7 +28,14 @@ app.post("/api/shopping",function(req,res) {
 	}
 	id++;
 	database.push(item);
-	return res.status(201).json({message:"created"})
+	return res.status(201).json({message:"created"});
+})
+
+app.delete("/api/shopping/:id",function(req,res) {
+	let tempId = parseInt(req.params.id,10);
+	let tempDB = database.filter(item => item.id !== tempId);
+	database = tempDB;
+	return res.status(200).json({message:"success"});
 })
 
 app.listen(port);
