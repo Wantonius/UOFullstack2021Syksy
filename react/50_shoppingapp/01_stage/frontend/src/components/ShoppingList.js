@@ -8,24 +8,39 @@ export default class ShoppingList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			removeIndex:-1
+			removeIndex:-1,
+			editIndex:-1
 		}
 	}
 	
 	changeToRemoveMode = (index) => {
 		this.setState({
-			removeIndex:index
+			removeIndex:index,
+			editIndex:-1
+		})
+	}
+
+	changeToEditMode = (index) => {
+		this.setState({
+			removeIndex:-1,
+			editIndex:index
 		})
 	}
 	
 	cancel = () => {
 		this.setState({
-			removeIndex:-1
+			removeIndex:-1,
+			editIndex:-1
 		})
 	}
 	
 	removeFromList = (id) => {
 		this.props.removeFromList(id);
+		this.cancel();
+	}
+	
+	editItem = (item) => {
+		this.props.editItem(item);
 		this.cancel();
 	}
 	
