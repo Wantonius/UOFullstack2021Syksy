@@ -2,7 +2,9 @@ import logo from './logo.svg';
 import './App.css';
 import ShoppingForm from './components/ShoppingForm';
 import ShoppingList from './components/ShoppingList';
+import Navbar from './components/Navbar';
 import React from 'react';
+import {Switch,Route} from 'react-router-dom';
 class App extends React.Component {
 	
 	constructor(props) {
@@ -56,9 +58,16 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="App">
-				<ShoppingForm addToList={this.addToList}/>
+				<Navbar/>
 				<hr/>
-				<ShoppingList list={this.state.list}/>
+				<Switch>
+				<Route exact path="/" render={() => 
+					(<ShoppingList list={this.state.list}/>)
+				}/>
+				<Route path="/form" render={() => 
+					(<ShoppingForm addToList={this.addToList}/>)
+				}/>
+				</Switch>
 			</div>
 		);
 	}
