@@ -1,18 +1,33 @@
 import React from 'react';
 import {Table,Button} from 'semantic-ui-react';
+import Row from './Row';
 
 export default class ShoppingList extends React.Component {
 	
+	constructor(props) {
+		super(props);
+		this.setState = {
+			removeIndex:-1
+		}
+	}
+	
+	changeToRemoveMode = (index) => {
+		this.setState({
+			removeIndex:index
+		})
+	}
+	
+	cancel = () => {
+		this.setState({
+			removeIndex:-1
+		})
+	}
+	
 	render() {
-		let items = this.props.list.map(item => {
+		let items = this.props.list.map((item,index) => {
 			return (
-				<Table.Row key={item.id}>
-					<Table.Cell>{item.type}</Table.Cell>
-					<Table.Cell>{item.count}</Table.Cell>
-					<Table.Cell>{item.price}</Table.Cell>
-					<Table.Cell><Button color="red">Remove</Button></Table.Cell>
-					<Table.Cell><Button color="lightblue">Edit</Button></Table.Cell>
-				</Table.Row>
+				<Row key={item.id} item={item}
+					index={index} changeToRemoveMode={this.changeToRemoveMode}/>
 			)
 		})
 		return(

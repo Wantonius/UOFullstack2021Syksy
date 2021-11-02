@@ -79,7 +79,8 @@ class App extends React.Component {
 				<hr/>
 				<Switch>
 				<Route exact path="/" render={() => 
-					(<ShoppingList list={this.state.list}/>)
+					(<ShoppingList list={this.state.list}
+					removeFromList={this.removeFromList}/>)
 				}/>
 				<Route path="/form" render={() => 
 					(<ShoppingForm addToList={this.addToList}/>)
