@@ -7,7 +7,7 @@ export default class ShoppingList extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.setState = {
+		this.state = {
 			removeIndex:-1
 		}
 	}
