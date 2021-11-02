@@ -2,6 +2,7 @@ import React from 'react';
 import {Table,Button} from 'semantic-ui-react';
 import Row from './Row';
 import RemoveRow from './RemoveRow';
+import EditRow from './EditRow';
 
 export default class ShoppingList extends React.Component {
 	
@@ -46,13 +47,20 @@ export default class ShoppingList extends React.Component {
 	
 	render() {
 		let items = this.props.list.map((item,index) => {
+			if(this.state.editIndex === index) {
+				return (<EditRow key={item.id} item={item}
+					editItem={this.editIndex}
+					cancel={this.cancel} />)
+			}
 			if(this.state.removeIndex === index) {
 				return (<RemoveRow key={item.id} item={item}
 					cancel={this.cancel} removeFromList={this.removeFromList}/>)
 			}
 			return (
 				<Row key={item.id} item={item}
-					index={index} changeToRemoveMode={this.changeToRemoveMode}/>
+					index={index} 
+					changeToRemoveMode={this.changeToRemoveMode}
+					changeToEditMode={this.changeToEditMode}/>
 			)
 		})
 		return(
