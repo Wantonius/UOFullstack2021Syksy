@@ -23,6 +23,11 @@ export default class ShoppingList extends React.Component {
 		})
 	}
 	
+	removeFromList = (id) => {
+		this.props.removeFromList(id);
+		this.cancel();
+	}
+	
 	render() {
 		let items = this.props.list.map((item,index) => {
 			return (
