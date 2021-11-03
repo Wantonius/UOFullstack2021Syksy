@@ -26,15 +26,15 @@ isUserLogged = (req,res,next) => {
 	}
 	for(let i=0;i<loggedSessions.length;i++) {
 		if(req.headers.token === loggedSessions[i].token) {
-		let now = Date.now();
-		if(now > loggedSessions[i].ttl) {
-			loggedSessions.splice(i,1);
-			return res.status(403).json({message:"Forbidden"})
-		}
-		loggedSessions[i].ttl = now + time_to_live_diff;
-		req.session = {};
-		req.session.user = loggedSessions[i].user;
-		return next();
+			let now = Date.now();
+			if(now > loggedSessions[i].ttl) {
+				loggedSessions.splice(i,1);
+				return res.status(403).json({message:"Forbidden"})
+			}
+			loggedSessions[i].ttl = now + time_to_live_diff;
+			req.session = {};
+			req.session.user = loggedSessions[i].user;
+			return next();
 		}	
 	}
 	return res.status(403).json({message:"Forbidden"})
