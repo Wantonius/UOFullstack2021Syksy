@@ -38,7 +38,7 @@ isUserLogged = (req,res,next) => {
 	}
 	return res.status(403).json({message:"Forbidden"})
 }
-
+}
 //LOGIN API
 
 app.post("/register",function(req,res) {
