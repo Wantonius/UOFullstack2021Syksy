@@ -12,7 +12,9 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			list:[]
+			list:[],
+			token:"",
+			isLogged:false
 		}
 	}
 	
@@ -39,6 +41,24 @@ class App extends React.Component {
 			if(response.status === 409) {
 				alert("Username already in use");
 			}
+			console.log("Server responded with a status:",response.status);
+		}
+	}
+
+	login = async (user) => {
+		let request = {
+			method:"POST",
+			mode:"cors",
+			headers:{"Content-type":"application/json"},
+			body:JSON.stringify(user)
+		}
+		let response = await fetch("/login",request).catch(error => console.log("There was an error registering:",error));
+		if(!response) {
+			return;
+		}
+		if(response.ok) {
+			alert("Login success!");
+		} else {
 			console.log("Server responded with a status:",response.status);
 		}
 	}
