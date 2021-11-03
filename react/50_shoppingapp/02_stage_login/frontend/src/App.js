@@ -5,6 +5,7 @@ import ShoppingList from './components/ShoppingList';
 import Navbar from './components/Navbar';
 import React from 'react';
 import {Switch,Route} from 'react-router-dom';
+import LoginPage from './components/LoginPage';
 class App extends React.Component {
 	
 	constructor(props) {
