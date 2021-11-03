@@ -1,5 +1,6 @@
 const express = require("express");
 const routes = require("./routes/apiroutes");
+const bcrypt = require("bcrypt");
 
 let app = express();
 
