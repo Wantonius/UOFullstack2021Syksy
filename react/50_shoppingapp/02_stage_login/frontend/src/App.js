@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import React from 'react';
 import {Switch,Route} from 'react-router-dom';
 import LoginPage from './components/LoginPage';
+
 class App extends React.Component {
 	
 	constructor(props) {
@@ -18,6 +19,31 @@ class App extends React.Component {
 	componentDidMount() {
 		this.getList();
 	}
+	
+//LOGIN API 	
+	
+	register = async (user) => {
+		let request = {
+			method:"POST",
+			mode:"cors",
+			headers:{"Content-type":"application/json"},
+			body:JSON.stringify(user)
+		}
+		let response = await fetch("/register",request).catch(error => console.log("There was an error registering:",error));
+		if(!response) {
+			return;
+		}
+		if(response.ok) {
+			alert("Register success!");
+		} else {
+			if(response.status === 409) {
+				alert("Username already in use");
+			}
+			console.log("Server responded with a status:",response.status);
+		}
+	}
+	
+//REST API	
 	
 	getList = async () => {
 		let request = {
@@ -98,14 +124,18 @@ class App extends React.Component {
 				<Navbar/>
 				<hr/>
 				<Switch>
-				<Route exact path="/" render={() => 
-					(<ShoppingList list={this.state.list}
-					removeFromList={this.removeFromList}
-					editItem={this.editItem}/>)
-				}/>
-				<Route path="/form" render={() => 
-					(<ShoppingForm addToList={this.addToList}/>)
-				}/>
+					<Route exact path="/" render={() => 
+						(<LoginPage register={this.register}
+							login={this.login}/>)
+					}/>
+					<Route path="/list" render={() => 
+						(<ShoppingList list={this.state.list}
+						removeFromList={this.removeFromList}
+						editItem={this.editItem}/>)
+					}/>
+					<Route path="/form" render={() => 
+						(<ShoppingForm addToList={this.addToList}/>)
+					}/>
 				</Switch>
 			</div>
 		);
