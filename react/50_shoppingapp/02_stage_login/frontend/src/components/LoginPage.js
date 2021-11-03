@@ -28,7 +28,12 @@ export default class LoginPage extends React.Component {
 		}
 	}
 	render() {
+		let loginStyle = {
+			width:500,
+			margin:"auto"
+		}
 		return(
+		<div style={loginStyle}>
 			<Form>
 				<Form.Field>
 					<label htmlFor="username">Username</label>
@@ -47,6 +52,7 @@ export default class LoginPage extends React.Component {
 				<Button name="register" onClick={this.onSubmit}>Register</Button>
 				<Button name="login" onClick={this.onSubmit}>Login</Button>
 			</Form>
+		</div>
 		)
 	}
 	
