@@ -35,9 +35,9 @@ isUserLogged = (req,res,next) => {
 		req.session = {};
 		req.session.user = loggedSessions[i].user;
 		return next();
+		}	
 	}
 	return res.status(403).json({message:"Forbidden"})
-}
 }
 //LOGIN API
 
