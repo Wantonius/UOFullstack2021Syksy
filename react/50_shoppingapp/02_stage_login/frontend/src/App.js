@@ -154,7 +154,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="App">
-				<Navbar/>
+				<Navbar isLogged={this.state.isLogged}/>
 				<hr/>
 				<Switch>
 					<Route exact path="/" render={() =>  this.state.isLogged ?
