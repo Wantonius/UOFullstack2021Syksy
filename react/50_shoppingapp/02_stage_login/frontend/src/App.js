@@ -78,7 +78,8 @@ class App extends React.Component {
 		let request = {
 			method:"GET",
 			mode:"cors",
-			headers:{"Content-type":"application/json"}
+			headers:{"Content-type":"application/json",
+					"token":this.state.token}
 		}
 		let response = await fetch("/api/shopping",request).catch(error => console.log(error))
 		if(!response) {
