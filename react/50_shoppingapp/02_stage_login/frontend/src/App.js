@@ -4,7 +4,7 @@ import ShoppingForm from './components/ShoppingForm';
 import ShoppingList from './components/ShoppingList';
 import Navbar from './components/Navbar';
 import React from 'react';
-import {Switch,Route} from 'react-router-dom';
+import {Switch,Route,Redirect} from 'react-router-dom';
 import LoginPage from './components/LoginPage';
 
 class App extends React.Component {
@@ -157,17 +157,24 @@ class App extends React.Component {
 				<Navbar/>
 				<hr/>
 				<Switch>
-					<Route exact path="/" render={() => 
+					<Route exact path="/" render={() =>  this.state.isLogged ?
+					    (<Redirect to="/list"/>) :
 						(<LoginPage register={this.register}
 							login={this.login}/>)
 					}/>
-					<Route path="/list" render={() => 
+					<Route path="/list" render={() => this.state.isLogged ?
 						(<ShoppingList list={this.state.list}
 						removeFromList={this.removeFromList}
-						editItem={this.editItem}/>)
+						editItem={this.editItem}/>) :
+						(<Redirect to="/"/>)
 					}/>
-					<Route path="/form" render={() => 
-						(<ShoppingForm addToList={this.addToList}/>)
+					<Route path="/form" render={() =>  this.state.isLogged ?
+						(<ShoppingForm addToList={this.addToList}/>):
+						(<Redirect to="/"/>)
+					}/>
+					<Route render={() => this.state.isLogged ? 
+						(<Redirect to="/list"/>):
+						(<Redirect to="/"/>)
 					}/>
 				</Switch>
 			</div>
