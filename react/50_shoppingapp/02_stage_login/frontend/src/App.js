@@ -44,6 +44,8 @@ class App extends React.Component {
 			isLogged:false,
 			loading:false,
 			error:""
+		}, () => {
+			this.saveToStorage();
 		})
 	}
 	
@@ -123,16 +125,18 @@ class App extends React.Component {
 			headers:{"Content-type":"application/json",
 					"token":this.state.token}
 		}
+		this.setError("");
+		this.setLoading(true);
 		let response = await fetch("/logout",request).catch(error => console.log("There was an error logging out:",error))
+		this.setLoading(false);
+		this.clearState();
 		if(!response) {
-			this.clearState();
 			return;
 		}
 		if(response.ok) {
-			this.clearState();
+			this.setError("You have been successfully logged out!");
 		} else {
-			console.log("Server responded with a status:",response.status);
-			this.clearState();
+			this.setError("Server responded with no session found. Logging you out!");
 		}
 	}
 	
@@ -145,7 +149,10 @@ class App extends React.Component {
 			headers:{"Content-type":"application/json",
 					"token":this.state.token}
 		}
+		this.setError("");
+		this.setLoading(true);
 		let response = await fetch("/api/shopping",request).catch(error => console.log(error))
+		this.setLoading(false);
 		if(!response) {
 			return;
 		}
