@@ -16,6 +16,7 @@ export default class Navbar extends React.Component {
 					<List>
 						<List.Item><Link to="/list">Shopping List</Link></List.Item>
 						<List.Item><Link to="/form">Add new item</Link></List.Item>
+						<List.Item>Link to="/" onClick={this.props.logout}>Logout</Link></List.Item>
 					</List>
 				</div>
 			)

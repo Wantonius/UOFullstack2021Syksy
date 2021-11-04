@@ -35,6 +35,14 @@ class App extends React.Component {
 		sessionStorage.setItem("state",JSON.stringify(this.state))
 	}
 	
+	clearState = () => {
+		this.setState({
+			list:[],
+			token:"",
+			isLogged:false
+		})
+	}
+	
 //LOGIN API 	
 	
 	register = async (user) => {
@@ -83,6 +91,26 @@ class App extends React.Component {
 			})			
 		} else {
 			console.log("Server responded with a status:",response.status);
+		}
+	}
+	
+	logout = async () => {
+		let request = {
+			method:"POST",
+			mode:"cors",
+			headers:{"Content-type":"application/json",
+					"token":this.state.token}
+		}
+		let response = await fetch("/logout",request).catch(error => console.log("There was an error logging out:",error))
+		if(!response) {
+			this.clearState();
+			return;
+		}
+		if(response.ok) {
+			this.clearState();
+		} else {
+			console.log("Server responded with a status:",response.status);
+			this.clearState();
 		}
 	}
 	
@@ -170,7 +198,8 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="App">
-				<Navbar isLogged={this.state.isLogged}/>
+				<Navbar isLogged={this.state.isLogged} 
+				logout={this.logout}/>
 				<hr/>
 				<Switch>
 					<Route exact path="/" render={() =>  this.state.isLogged ?

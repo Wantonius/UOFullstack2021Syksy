@@ -105,6 +105,22 @@ app.post("/login",function(req,res) {
 	return res.status(403).json({message:"Forbidden"})
 })
 
+app.post("/logout",function(req,res) {
+	let token = req.headers.token
+	if(!token) {
+		console.log("No session found");
+		return res.status(404).json({message:"not found"})
+	}
+	for(let i=0;i<loggedSessions.length;i++) {
+		if(token === loggedSessions[i].token) {
+			loggedSessions.splice(i,1)
+			return res.status(200).json({message:"success"})
+		}
+	}
+	console.log("No session found");
+	return res.status(404).json({message:"not found"})
+})
+
 
 let port = process.env.PORT || 3001
 
