@@ -99,7 +99,8 @@ class App extends React.Component {
 		let request = {
 			method:"POST",
 			mode:"cors",
-			headers:{"Content-type":"application/json"},
+			headers:{"Content-type":"application/json",
+					"token":this.state.token},
 			body:JSON.stringify(item)
 		}
 		let response = await fetch("/api/shopping",request).catch(error => console.log(error))
@@ -117,7 +118,8 @@ class App extends React.Component {
 		let request = {
 			method:"DELETE",
 			mode:"cors",
-			headers:{"Content-type":"application/json"}
+			headers:{"Content-type":"application/json",
+					"token":this.state.token}
 		}
 		const response = await fetch("/api/shopping/"+id,request).catch(error => console.log(error))
 		if(!response) {
@@ -134,7 +136,8 @@ class App extends React.Component {
 		let request = {
 			method:"PUT",
 			mode:"cors",
-			headers:{"Content-type":"application/json"},
+			headers:{"Content-type":"application/json",
+					"token":this.state.token},
 			body:JSON.stringify(item)
 		}
 		const response = await fetch("/api/shopping/"+item.id,request).catch(error => console.log(error))
