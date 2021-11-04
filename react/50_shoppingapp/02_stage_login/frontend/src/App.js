@@ -14,7 +14,9 @@ class App extends React.Component {
 		this.state = {
 			list:[],
 			token:"",
-			isLogged:false
+			isLogged:false,
+			loading:false,
+			error:""
 		}
 	}
 	
@@ -39,7 +41,21 @@ class App extends React.Component {
 		this.setState({
 			list:[],
 			token:"",
-			isLogged:false
+			isLogged:false,
+			loading:false,
+			error:""
+		})
+	}
+	
+	setError = (error) => {
+		this.setState({
+			error:error
+		})
+	}
+	
+	setLoading = (loading) => {
+		this.setState({
+			loading:loading
 		})
 	}
 	
@@ -199,7 +215,8 @@ class App extends React.Component {
 		return (
 			<div className="App">
 				<Navbar isLogged={this.state.isLogged} 
-				logout={this.logout}/>
+				logout={this.logout} loading={this.state.loading}
+				error={this.state.error}/>
 				<hr/>
 				<Switch>
 					<Route exact path="/" render={() =>  this.state.isLogged ?
