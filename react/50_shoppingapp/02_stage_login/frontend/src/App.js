@@ -68,15 +68,18 @@ class App extends React.Component {
 			headers:{"Content-type":"application/json"},
 			body:JSON.stringify(user)
 		}
+		this.setError("");
+		this.setLoading(true);
 		let response = await fetch("/register",request).catch(error => console.log("There was an error registering:",error));
+		this.setLoading(false);
 		if(!response) {
 			return;
 		}
 		if(response.ok) {
-			alert("Register success!");
+			this.setError("Register success!");
 		} else {
 			if(response.status === 409) {
-				alert("Username already in use");
+				this.setError("Username already in use");
 			}
 			console.log("Server responded with a status:",response.status);
 		}
@@ -89,12 +92,15 @@ class App extends React.Component {
 			headers:{"Content-type":"application/json"},
 			body:JSON.stringify(user)
 		}
+		this.setError("");
+		this.setLoading(true);
 		let response = await fetch("/login",request).catch(error => console.log("There was an error logging in:",error));
+		this.setLoading(false);
 		if(!response) {
 			return;
 		}
 		if(response.ok) {
-			let data = await response.json().catch(error => console.log("Failed to parse JSON"))
+			let data = await response.json().catch(error => this.setError("Failed to parse JSON. Please, try again!"))
 			if(!data) {
 				return;
 			}
@@ -106,7 +112,7 @@ class App extends React.Component {
 				this.saveToStorage();
 			})			
 		} else {
-			console.log("Server responded with a status:",response.status);
+			this.setError("Login Failed! Server responded with a status:"+response.statusText);
 		}
 	}
 	
