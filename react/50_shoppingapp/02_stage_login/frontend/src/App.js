@@ -19,7 +19,20 @@ class App extends React.Component {
 	}
 	
 	componentDidMount() {
-		this.getList();
+		if(sessionStorage.getItem("state")) {
+			let state = JSON.parse(sessionStorage.getItem("state"));
+			this.setState(state, () => {
+				if(this.state.isLogged) {
+					this.getList();
+				}
+			})
+		}
+	}
+	
+//HELPERS
+
+	saveToStorage = () => {
+		sessionStorage.setItem("state",JSON.stringify(this.state))
 	}
 	
 //LOGIN API 	
@@ -66,6 +79,7 @@ class App extends React.Component {
 				token:data.token
 			},() => {
 				this.getList();
+				this.saveToStorage();
 			})			
 		} else {
 			console.log("Server responded with a status:",response.status);
@@ -89,6 +103,8 @@ class App extends React.Component {
 			let data = await response.json();
 			this.setState({
 				list:data
+			}, () => {
+				this.saveToStorage();
 			})
 		} else {
 			console.log("Server responded with a status:",response.status)
