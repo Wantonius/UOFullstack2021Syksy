@@ -52,12 +52,21 @@ class App extends React.Component {
 			headers:{"Content-type":"application/json"},
 			body:JSON.stringify(user)
 		}
-		let response = await fetch("/login",request).catch(error => console.log("There was an error registering:",error));
+		let response = await fetch("/login",request).catch(error => console.log("There was an error logging in:",error));
 		if(!response) {
 			return;
 		}
 		if(response.ok) {
-			alert("Login success!");
+			let data = await response.json().catch(error => console.log("Failed to parse JSON"))
+			if(!data) {
+				return;
+			}
+			this.setState({
+				isLogged:true,
+				token:data.token
+			},() => {
+				this.getList();
+			})			
 		} else {
 			console.log("Server responded with a status:",response.status);
 		}
