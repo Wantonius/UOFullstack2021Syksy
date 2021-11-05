@@ -219,7 +219,7 @@ class App extends React.Component {
 				this.clearState();
 				this.setError("Session has expired! Logging you out!");
 			}
-			if(response.status === 404) {");
+			if(response.status === 404) {
 				this.getList();
 			}			
 			console.log("Failed to remove item from list. Server responded with a status:",response.status)
