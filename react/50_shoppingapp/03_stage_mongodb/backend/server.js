@@ -17,8 +17,7 @@ mongoose.connect("mongodb+srv://"+process.env.MONGOCLOUD_USER+":"+process.env.MO
 	(error) => console.log("Failed to connect to Mongo Cloud",error)
 )
 
-let registeredUsers = [];
-let loggedSessions = [];
+
 const time_to_live_diff = 3600000;
 
 //HELPERS

@@ -1,55 +1,56 @@
 const express = require("express");
+const itemModel = require("../models/item");
 
 let router = express.Router()
 
-let database = [];
-let id = 100;
 
 router.get("/shopping",function(req,res) {
-	let tempDatabase = database.filter(item => item.user === req.session.user)
-	return res.status(200).json(tempDatabase);
+	let query = {"user":req.session.user}
+	itemModel.find(query,function(err,items) {
+		if(err) {
+			return res.status(500).json({message:"Internal server error"})
+		}
+		return res.status(200).json(items);
+	})
 })
 
 router.post("/shopping",function(req,res) {
-	let item = {
+	let item = new itemModel({
 		...req.body,
-		id:id,
 		user:req.session.user
-	}
-	id++;
-	database.push(item);
-	return res.status(201).json({message:"created"});
+	})
+	item.save(function(err) {
+		if(err) {
+			return res.status(500).json({message:"Internal server error"})
+		}
+		return res.status(201).json({message:"created"});		
+	})
+	
 })
 
 router.delete("/shopping/:id",function(req,res) {
-	let tempId = parseInt(req.params.id,10);
-	for(let i=0;i<database.length;i++) {
-		if(database[i].id === tempId) {
-			if(database[i].user === req.session.user) {
-				database.splice(i,1)
-				return res.status(200).json({message:"success"});
-			}
+	itemModel.deleteOne({"_id":req.params.id,"user":req.session.user}, function(err){
+		if(err) {
+			return res.status(500).json({message:"Internal server error"})
 		}
-	}
-	return res.status(404).json({message:"not found"});
+		return res.status(200).json({message:"success!"})
+	})
 })
 
 router.put("/shopping/:id",function(req,res) {
-	let tempId = parseInt(req.params.id,10);
 	let item = {
 		...req.body,
-		user:req.session.user,
-		id:tempId
+		user:req.session.user
 	}
-	for(let i=0;i<database.length;i++) {
-		if(database[i].id === tempId) {
-			if(database[i].user === req.session.user) {
-				database.splice(i,1,item);
-				return res.status(200).json({message:"success"});
-			}
+	itemModel.replaceOne({"_id":req.params.id,"user":req.session.user},item,function(err,response) {
+		if(err) {
+			return res.status(500).json({message:"Internal server error"})
 		}
-	}
-	return res.status(404).json({message:"not found"});
+		if(!response.nModified) {
+			return res.status(404).json({message:"Not found!"})
+		}
+		return res.status(200).json({message:"success!"})
+	})
 })
 
 module.exports = router;
