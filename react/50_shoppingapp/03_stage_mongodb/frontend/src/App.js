@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import ShoppingForm from './components/ShoppingForm';
 import ShoppingList from './components/ShoppingList';
@@ -236,7 +235,7 @@ class App extends React.Component {
 		}
 		this.setError("");
 		this.setLoading(true);
-		const response = await fetch("/api/shopping/"+item.id,request).catch(error => console.log(error))
+		const response = await fetch("/api/shopping/"+item._id,request).catch(error => console.log(error))
 		this.setLoading(false);
 		if(!response) {
 			return;

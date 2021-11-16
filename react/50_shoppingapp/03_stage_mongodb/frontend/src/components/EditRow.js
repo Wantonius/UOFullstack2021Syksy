@@ -21,7 +21,7 @@ export default class EditRow extends React.Component {
 	onSubmit = (event) => {
 		let item = {
 			...this.state,
-			id:this.props.item.id
+			_id:this.props.item._id
 		}
 		this.props.editItem(item);
 	}

@@ -43,6 +43,7 @@ router.put("/shopping/:id",function(req,res) {
 		user:req.session.user
 	}
 	itemModel.replaceOne({"_id":req.params.id,"user":req.session.user},item,function(err,response) {
+		console.log(response);
 		if(err) {
 			return res.status(500).json({message:"Internal server error"})
 		}
