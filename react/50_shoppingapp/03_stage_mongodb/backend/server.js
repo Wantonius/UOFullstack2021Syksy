@@ -2,12 +2,18 @@ const express = require("express");
 const routes = require("./routes/apiroutes");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
+const mongoose = require("mongoose");
 
 let app = express();
 
 app.use(express.json());
 
 //LOGIN DATABASES
+
+mongoose.connect("mongodb+srv://"+process.env.MONGOCLOUD_USER+":"+process.env.MONGOCLOUD_PASSWORD+"@"+process.env.MONGOCLOUD_URL+"/uoshopping?retryWrites=true&w=majority").then(
+	() => console.log("Connected to Mongo Cloud"),
+	(error) => console.log("Failed to connect to Mongo Cloud",error)
+)
 
 let registeredUsers = [];
 let loggedSessions = [];
