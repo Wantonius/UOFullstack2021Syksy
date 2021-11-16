@@ -151,14 +151,12 @@ app.post("/logout",function(req,res) {
 		console.log("No session found");
 		return res.status(404).json({message:"not found"})
 	}
-	for(let i=0;i<loggedSessions.length;i++) {
-		if(token === loggedSessions[i].token) {
-			loggedSessions.splice(i,1)
-			return res.status(200).json({message:"success"})
+	sessionModel.deleteOne({"token":token},function(err) {
+		if(err) {
+			console.log("Failed to remove session with token",token,err)
 		}
-	}
-	console.log("No session found");
-	return res.status(404).json({message:"not found"})
+		return res.status(200).json({message:"logged out"})
+	})
 })
 
 
