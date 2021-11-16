@@ -30,22 +30,35 @@ createToken = () => {
 
 isUserLogged = (req,res,next) => {
 	if(!req.headers.token) {
-		return res.status(403).json({message:"Forbidden"})
+		return res.status(403).json({message:"Forbidden 2"})
 	}
-	for(let i=0;i<loggedSessions.length;i++) {
-		if(req.headers.token === loggedSessions[i].token) {
-			let now = Date.now();
-			if(now > loggedSessions[i].ttl) {
-				loggedSessions.splice(i,1);
-				return res.status(403).json({message:"Forbidden"})
-			}
-			loggedSessions[i].ttl = now + time_to_live_diff;
+	sessionModel.findOne({"token":req.headers.token},function(err,session) {
+		if(err) {
+			return res.status(403).json({message:"Internal server error"})
+		}
+		if(!session) {
+			return res.status(403).json({message:"Forbidden 1"})
+		}
+		let now = Date.now();
+		if(session.ttl < now) {
+			sessionModel.deleteOne({"_id":session._id}, function(err) {
+				if(err) {
+					console.log("Failed to delete session:",session._id)
+				}
+				return res.status(403).json({message:"Forbidden 3"})
+			})
+		} else {
 			req.session = {};
-			req.session.user = loggedSessions[i].user;
-			return next();
-		}	
-	}
-	return res.status(403).json({message:"Forbidden"})
+			req.session.user = session.user;
+			session.ttl = now+time_to_live_diff;
+			session.save(function(err) {
+				if(err) {
+					console.log("Failed to update session");
+				}
+				return next();
+			})
+		}
+	})
 }
 //LOGIN API
 
