@@ -100,29 +100,36 @@ app.post("/login",function(req,res) {
 	if(req.body.username.length < 4 ||req.body.password.length < 8) {
 		return res.status(400).json({message:"Bad Request"});	
 	}
-	for(let i=0;i<registeredUsers.length;i++) {
-		if(registeredUsers[i].username === req.body.username) {
-			bcrypt.compare(req.body.password,registeredUsers[i].password, function(err,success) {
+	userModel.findOne({"username":req.body.username}, function(err,user){
+		if(err) {
+			console.log("Failed to find user. Reason:",err);
+			return res.status(500).json({message:"Internal Server Error"})
+		}
+		if(!user) {
+			return res.status(401).json({message:"Unauthorized"})
+		}
+		bcrypt.compare(req.body.password,user.password,function(err,success) {
+			if(err) {
+				return res.status(500).json({message:"Internal Server Error"})
+			}
+			if(!success) {
+				return res.status(401).json({message:"Unauthorized"})
+			}
+			let token = createToken();
+			let now = Date.now();
+			let session = new sessionModel({
+				token:token,
+				user:user.username,
+				ttl:now+time_to_live_diff
+			})
+			session.save(function(err) {
 				if(err) {
-					return res.status(500).json({message:"Server error"})
-				}
-				if(!success) {
-					return res.status(403).json({message:"Forbidden"})
-				}
-				let token = createToken();
-				let now = Date.now();
-				let session = {
-					user:req.body.username,
-					ttl:now+time_to_live_diff,
-					token:token
-				}
-				loggedSessions.push(session);
+					return res.status(500).json({message:"Internal Server Error"})
+				}	
 				return res.status(200).json({token:token})
 			})
-			return;
-		}
-	}
-	return res.status(403).json({message:"Forbidden"})
+		})
+	})
 })
 
 app.post("/logout",function(req,res) {
