@@ -3,6 +3,8 @@ const routes = require("./routes/apiroutes");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const mongoose = require("mongoose");
+const userModel = require("./models/user");
+const sessionModel = require("./models/session");
 
 let app = express();
 
@@ -66,13 +68,25 @@ app.post("/register",function(req,res) {
 		if(err) {
 			return res.status(500).json({message:"Server error"})
 		}
-		let user = {
+		let user = new userModel({
 			username:req.body.username,
 			password:hash
-		}
-		registeredUsers.push(user);
-		console.log(registeredUsers);
-		return res.status(201).json({message:"New user created!"});
+		})
+		user.save(function(err,newuser) {
+			console.log(err);
+			if(err) {
+				console.log("Failed to register new user");
+				if(err.code === 11000) {
+					return res.status(409).json({message:"Username already in use"})
+				}
+				return res.status(500).json({message:"Internal server error"})
+			}
+			if(!newuser) {
+				return res.status(500).json({message:"Internal server error"})
+			}
+			return res.status(201).json({message:"New user created!"});
+		})
+		
 	})
 })
 
