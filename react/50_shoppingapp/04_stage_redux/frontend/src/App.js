@@ -62,29 +62,7 @@ class App extends React.Component {
 	
 //LOGIN API 	
 	
-	register = async (user) => {
-		let request = {
-			method:"POST",
-			mode:"cors",
-			headers:{"Content-type":"application/json"},
-			body:JSON.stringify(user)
-		}
-		this.setError("");
-		this.setLoading(true);
-		let response = await fetch("/register",request).catch(error => console.log("There was an error registering:",error));
-		this.setLoading(false);
-		if(!response) {
-			return;
-		}
-		if(response.ok) {
-			this.setError("Register success!");
-		} else {
-			if(response.status === 409) {
-				this.setError("Username already in use");
-			}
-			console.log("Server responded with a status:",response.status);
-		}
-	}
+
 
 	login = async (user) => {
 		let request = {
@@ -264,8 +242,7 @@ class App extends React.Component {
 				<Switch>
 					<Route exact path="/" render={() =>  this.state.isLogged ?
 					    (<Redirect to="/list"/>) :
-						(<LoginPage register={this.register}
-							login={this.login}/>)
+						(<LoginPage	login={this.login}/>)
 					}/>
 					<Route path="/list" render={() => this.state.isLogged ?
 						(<ShoppingList list={this.state.list}

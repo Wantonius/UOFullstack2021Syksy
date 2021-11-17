@@ -10,7 +10,31 @@ export const LOGOUT_FAILED = "LOGOUT_FAILED";
 export const CLEAR_LOGIN_STATE = "CLEAR_LOGIN_STATE";
 
 //ASYNC ACTION CREATORS
-
+export const register = (user) => {
+	return async (dispatch) => {
+		let request = {
+			method:"POST",
+			mode:"cors",
+			headers:{"Content-type":"application/json"},
+			body:JSON.stringify(user)
+		}
+		dispatch(loading());
+		let response = await fetch("/register",request).catch(error => console.log("There was an error registering:",error));
+		if(!response) {
+			dispatch(registerFailed("There was an error registering"))
+			return;
+		}
+		if(response.ok) {
+			dispatch(registerSuccess());
+		} else {
+			if(response.status === 409) {
+				dispatch(registerFailed("Username already in use"))
+			} else {
+				dispatch(registerFailed("Server responded with a status:"+response.status));
+			}
+		}
+	}
+}
 //ACTION CREATORS
 
 export const loading = () => {
