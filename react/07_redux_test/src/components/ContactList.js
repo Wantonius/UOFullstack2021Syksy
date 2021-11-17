@@ -8,7 +8,7 @@ class ContactList extends React.Component {
 			return (
 				<li key={index}>First Name:{contact.firstname}<br/>
 						Last Name:{contact.lastname}<br/>
-						<button onClick={this.props.dispatch({
+						<button onClick={() => this.props.dispatch({
 							type:"REMOVE_FROM_LIST",
 							index:index
 						})}>Remove</button>
