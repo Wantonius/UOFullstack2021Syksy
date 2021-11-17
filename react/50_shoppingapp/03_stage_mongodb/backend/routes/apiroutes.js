@@ -47,7 +47,7 @@ router.put("/shopping/:id",function(req,res) {
 		if(err) {
 			return res.status(500).json({message:"Internal server error"})
 		}
-		if(!response.nModified) {
+		if(!response.modifiedCount) {
 			return res.status(404).json({message:"Not found!"})
 		}
 		return res.status(200).json({message:"success!"})

@@ -71,11 +71,6 @@ app.post("/register",function(req,res) {
 	if(req.body.username.length < 4 ||req.body.password.length < 8) {
 		return res.status(400).json({message:"Bad Request"});	
 	}
-	for(let i=0;i<registeredUsers.length;i++) {
-		if(req.body.username === registeredUsers[i].username) {
-			return res.status(409).json({message:"Username is already in use"})
-		}
-	}
 	bcrypt.hash(req.body.password,14,function(err,hash) {
 		if(err) {
 			return res.status(500).json({message:"Server error"})
