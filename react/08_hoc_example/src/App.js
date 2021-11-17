@@ -25,7 +25,7 @@ class App extends React.Component {
 			<FirstButton callback={this.callback}/>
 			<SecondButton callback={this.callback}/>
 		</div>
-  );
+		);
 	}
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Decorator from './Decorator';
 class SecondButton extends React.Component {
 
 	callback = (event) => {
@@ -16,4 +16,4 @@ class SecondButton extends React.Component {
 	}
 }
 
-export default SecondButton;
+export default Decorator(SecondButton);

@@ -1,4 +1,5 @@
 import React from 'react';
+import Decorator from './Decorator';
 
 class FirstButton extends React.Component {
 
@@ -16,4 +17,4 @@ class FirstButton extends React.Component {
 	}
 }
 
-export default FirstButton;
+export default Decorator(FirstButton);
