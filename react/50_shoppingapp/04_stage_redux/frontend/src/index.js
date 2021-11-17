@@ -5,11 +5,20 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'semantic-ui-css/semantic.min.css'
 import {BrowserRouter} from 'react-router-dom'
+import {createStore,applyMiddleware} from 'redux';
+import {Provider} from 'react-redux';
+import loginReducer from './reducers/loginReducer';
+import thunk from 'redux-thunk';
+
+const store = createStore(loginReducer,applyMiddleware(thunk));
+
 ReactDOM.render(
   <React.StrictMode>
+  <Provider store={store}>
   <BrowserRouter>
     <App />
   </BrowserRouter>
+  </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

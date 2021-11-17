@@ -12,3 +12,28 @@ export const CLEAR_LOGIN_STATE = "CLEAR_LOGIN_STATE";
 //ASYNC ACTION CREATORS
 
 //ACTION CREATORS
+
+export const loading = () => {
+	return {
+		type:LOADING
+	}
+}
+
+export const stopLoading = () => {
+	return {
+		type:STOP_LOADING
+	}
+}
+
+export const registerSuccess = () => {
+	return {
+		type:REGISTER_SUCCESS
+	}
+}
+
+export const registerFailed = (error) => {
+	return {
+		type:REGISTER_FAILED,
+		error:error
+	}
+}
