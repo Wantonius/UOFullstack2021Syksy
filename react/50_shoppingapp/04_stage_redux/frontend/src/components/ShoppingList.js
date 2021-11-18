@@ -66,11 +66,13 @@ export default class ShoppingList extends React.Component {
 		return(
 			<Table striped>
 				<Table.Header>
-					<Table.HeaderCell>Item Type</Table.HeaderCell>
-					<Table.HeaderCell>Count</Table.HeaderCell>
-					<Table.HeaderCell>Price</Table.HeaderCell>
-					<Table.HeaderCell>Remove</Table.HeaderCell>
-					<Table.HeaderCell>Edit</Table.HeaderCell>
+					<Table.Row>
+						<Table.HeaderCell>Item Type</Table.HeaderCell>
+						<Table.HeaderCell>Count</Table.HeaderCell>
+						<Table.HeaderCell>Price</Table.HeaderCell>
+						<Table.HeaderCell>Remove</Table.HeaderCell>
+						<Table.HeaderCell>Edit</Table.HeaderCell>
+					</Table.Row>
 				</Table.Header>
 				<Table.Body>
 				{items}
