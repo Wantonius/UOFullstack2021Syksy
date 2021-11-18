@@ -62,6 +62,27 @@ export const login = (user) => {
 	}
 }
 
+export const logout = (token) => {
+	return async (dispatch) => 	{
+		let request = {
+			method:"POST",
+			mode:"cors",
+			headers:{"Content-type":"application/json",
+					"token":token}
+		}
+		dispatch(loading());
+		let response = await fetch("/logout",request).catch(error => console.log("There was an error logging out:",error))
+		if(!response) {
+			dispatch(logoutFailed("There was an error connecting. Logging you out!"));
+			return;
+		}
+		if(response.ok) {
+			dispatch(logoutSuccess());
+		} else {
+			dispatch(logoutFailed("Server responded with no session found. Logging you out!"));
+		}
+	}
+}
 //ACTION CREATORS
 
 export const loading = () => {
@@ -100,5 +121,24 @@ export const loginFailed = (error) => {
 	return {
 		type:LOGIN_FAILED,
 		error:error
+	}
+}
+
+export const logoutSuccess = () => {
+	return {
+		type:LOGOUT_SUCCESS
+	}
+}
+
+export const logoutFailed = (error) => {
+	return {
+		type:LOGOUT_FAILED,
+		error:error
+	}
+}
+
+export const clearLoginState = () => {
+	return {
+		type:CLEAR_LOGIN_STATE
 	}
 }

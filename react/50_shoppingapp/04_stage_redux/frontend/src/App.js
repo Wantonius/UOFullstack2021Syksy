@@ -47,34 +47,6 @@ class App extends React.Component {
 	setLoading = (loading) => {
 	}
 	
-//LOGIN API 	
-	
-
-
-
-	
-	logout = async () => {
-		let request = {
-			method:"POST",
-			mode:"cors",
-			headers:{"Content-type":"application/json",
-					"token":this.props.token}
-		}
-		this.setError("");
-		this.setLoading(true);
-		let response = await fetch("/logout",request).catch(error => console.log("There was an error logging out:",error))
-		this.setLoading(false);
-		this.clearState();
-		if(!response) {
-			return;
-		}
-		if(response.ok) {
-			this.setError("You have been successfully logged out!");
-		} else {
-			this.setError("Server responded with no session found. Logging you out!");
-		}
-	}
-	
 //REST API	
 	
 	getList = async () => {
@@ -193,7 +165,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="App">
-				<Navbar logout={this.logout} />
+				<Navbar />
 				<hr/>
 				<Switch>
 					<Route exact path="/" render={() =>  this.props.isLogged ?
