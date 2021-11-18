@@ -14,3 +14,62 @@ export const CLEAR_SHOPPING_STATE = "CLEAR_SHOPPING_STATE";
 
 
 //ACTION CREATORS
+
+export const fetchListSuccess = (list) => {
+	return {
+		type:FETCH_LIST_SUCCESS,
+		list:list
+	}
+}
+
+export const fetchListFailed = (error) => {
+	return {
+		type:FETCH_LIST_FAILED,
+		error:error
+	}
+}
+
+export const addItemSuccess = () => {
+	return {
+		type:ADD_ITEM_SUCCESS
+	}
+}
+
+export const addItemFailed = (error) => {
+	return {
+		type:ADD_ITEM_FAILED,
+		error:error
+	}
+}
+
+export const removeItemSuccess = () => {
+	return {
+		type:REMOVE_ITEM_SUCCESS
+	}
+}
+
+export const removeItemFailed = (error) => {
+	return {
+		type:REMOVE_ITEM_FAILED,
+		error:error
+	}
+}
+
+export const editItemSuccess = () => {
+	return {
+		type:EDIT_ITEM_SUCCESS
+	}
+}
+
+export const editItemFailed = (error) => {
+	return {
+		type:EDIT_ITEM_FAILED,
+		error:error
+	}
+}
+
+export const clearShoppingState = () => {
+	return {
+		type:CLEAR_SHOPPING_STATE
+	}
+}
