@@ -1,8 +1,9 @@
 import React from 'react';
 import {List,Header} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
-export default class Navbar extends React.Component {
+class Navbar extends React.Component {
 	
 	render() {
 		let navStyle = {
@@ -36,3 +37,14 @@ export default class Navbar extends React.Component {
 		}
 	}
 }
+
+const mapStateToProps = (state) => {
+	return {
+		isLogged:state.isLogged,
+		token:state.token,
+		loading:state.loading,
+		error:state.error
+	}
+}
+
+export default connect(mapStateToProps)(Navbar);

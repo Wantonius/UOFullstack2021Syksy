@@ -35,37 +35,32 @@ export const register = (user) => {
 		}
 	}
 }
-	login = async (user) => {
+
+export const login = (user) => {
+	return async (dispatch) => {
 		let request = {
 			method:"POST",
 			mode:"cors",
 			headers:{"Content-type":"application/json"},
 			body:JSON.stringify(user)
 		}
-		this.setError("");
-		this.setLoading(true);
+		dispatch(loading());
 		let response = await fetch("/login",request).catch(error => console.log("There was an error logging in:",error));
-		this.setLoading(false);
 		if(!response) {
+			dispatch(loginFailed("There was an error with the connection"))
 			return;
 		}
 		if(response.ok) {
-			let data = await response.json().catch(error => this.setError("Failed to parse JSON. Please, try again!"))
+			let data = await response.json().catch(error => dispatch(loginFailed("Failed to parse JSON. Please, try again!")));
 			if(!data) {
 				return;
 			}
-			this.setState({
-				isLogged:true,
-				token:data.token
-			},() => {
-				this.getList();
-				this.saveToStorage();
-			})			
+			dispatch(loginSuccess(data.token));
 		} else {
-			this.setError("Login Failed! Server responded with a status:"+response.statusText);
+			dispatch(loginFailed("Login Failed! Server responded with a status:"+response.statusText));
 		}
 	}
-
+}
 
 //ACTION CREATORS
 

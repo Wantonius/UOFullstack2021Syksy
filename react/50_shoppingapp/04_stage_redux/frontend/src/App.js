@@ -5,17 +5,14 @@ import Navbar from './components/Navbar';
 import React from 'react';
 import {Switch,Route,Redirect} from 'react-router-dom';
 import LoginPage from './components/LoginPage';
+import {connect} from 'react-redux';
 
 class App extends React.Component {
 	
 	constructor(props) {
 		super(props);
 		this.state = {
-			list:[],
-			token:"",
-			isLogged:false,
-			loading:false,
-			error:""
+			list:[]
 		}
 	}
 	
@@ -23,7 +20,7 @@ class App extends React.Component {
 		if(sessionStorage.getItem("state")) {
 			let state = JSON.parse(sessionStorage.getItem("state"));
 			this.setState(state, () => {
-				if(this.state.isLogged) {
+				if(this.props.isLogged) {
 					this.getList();
 				}
 			})
@@ -38,26 +35,16 @@ class App extends React.Component {
 	
 	clearState = () => {
 		this.setState({
-			list:[],
-			token:"",
-			isLogged:false,
-			loading:false,
-			error:""
+			list:[]
 		}, () => {
 			this.saveToStorage();
 		})
 	}
 	
 	setError = (error) => {
-		this.setState({
-			error:error
-		})
 	}
 	
 	setLoading = (loading) => {
-		this.setState({
-			loading:loading
-		})
 	}
 	
 //LOGIN API 	
@@ -71,7 +58,7 @@ class App extends React.Component {
 			method:"POST",
 			mode:"cors",
 			headers:{"Content-type":"application/json",
-					"token":this.state.token}
+					"token":this.props.token}
 		}
 		this.setError("");
 		this.setLoading(true);
@@ -95,7 +82,7 @@ class App extends React.Component {
 			method:"GET",
 			mode:"cors",
 			headers:{"Content-type":"application/json",
-					"token":this.state.token}
+					"token":this.props.token}
 		}
 		this.setError("");
 		this.setLoading(true);
@@ -125,7 +112,7 @@ class App extends React.Component {
 			method:"POST",
 			mode:"cors",
 			headers:{"Content-type":"application/json",
-					"token":this.state.token},
+					"token":this.props.token},
 			body:JSON.stringify(item)
 		}
 		this.setError("");
@@ -151,7 +138,7 @@ class App extends React.Component {
 			method:"DELETE",
 			mode:"cors",
 			headers:{"Content-type":"application/json",
-					"token":this.state.token}
+					"token":this.props.token}
 		}
 		this.setError("");
 		this.setLoading(true);
@@ -179,7 +166,7 @@ class App extends React.Component {
 			method:"PUT",
 			mode:"cors",
 			headers:{"Content-type":"application/json",
-					"token":this.state.token},
+					"token":this.props.token},
 			body:JSON.stringify(item)
 		}
 		this.setError("");
@@ -206,26 +193,24 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="App">
-				<Navbar isLogged={this.state.isLogged} 
-				logout={this.logout} loading={this.state.loading}
-				error={this.state.error}/>
+				<Navbar logout={this.logout} />
 				<hr/>
 				<Switch>
-					<Route exact path="/" render={() =>  this.state.isLogged ?
+					<Route exact path="/" render={() =>  this.props.isLogged ?
 					    (<Redirect to="/list"/>) :
-						(<LoginPage	login={this.login}/>)
+						(<LoginPage	/>)
 					}/>
-					<Route path="/list" render={() => this.state.isLogged ?
+					<Route path="/list" render={() => this.props.isLogged ?
 						(<ShoppingList list={this.state.list}
 						removeFromList={this.removeFromList}
 						editItem={this.editItem}/>) :
 						(<Redirect to="/"/>)
 					}/>
-					<Route path="/form" render={() =>  this.state.isLogged ?
+					<Route path="/form" render={() =>  this.props.isLogged ?
 						(<ShoppingForm addToList={this.addToList}/>):
 						(<Redirect to="/"/>)
 					}/>
-					<Route render={() => this.state.isLogged ? 
+					<Route render={() => this.props.isLogged ? 
 						(<Redirect to="/list"/>):
 						(<Redirect to="/"/>)
 					}/>
@@ -235,4 +220,11 @@ class App extends React.Component {
 	}
 }
 
-export default App;
+const mapStateToProps = (state) => {
+	return {
+		isLogged:state.isLogged,
+		token:state.token
+	}
+}
+
+export default connect(mapStateToProps)(App);
