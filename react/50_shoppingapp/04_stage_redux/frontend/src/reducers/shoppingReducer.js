@@ -20,3 +20,81 @@ const getInitialState = () => {
 		}
 	}
 }
+
+const saveToStorage = (state) => {
+	sessionStorage.setItem("shoppingstate",JSON.stringify(state));
+}
+
+const initialState = getInitialState();
+
+const shoppingReducer = (state = initialState,action) => {
+	console.log("ShoppingReducer, action:",action);
+	let tempState = {};
+	switch(action.type) {
+		case FETCH_LIST_SUCCESS:
+			tempState = {
+				list:action.list,
+				error:""
+			}
+			saveToStorage(tempState);
+			return tempState;
+		case FETCH_LIST_FAILED:
+			tempState = {
+				...state,
+				error:action.error
+			}
+			saveToStorage(tempState);
+			return tempState;
+		case ADD_ITEM_SUCCESS:
+			tempState = {
+				...state,
+				error:""
+			}
+			saveToStorage(tempState);
+			return tempState;
+		case ADD_ITEM_FAILED:
+			tempState = {
+				...state,
+				error:action.error
+			}
+			saveToStorage(tempState);
+			return tempState;
+		case REMOVE_ITEM_SUCCESS:
+			tempState = {
+				...state,
+				error:""
+			}
+			saveToStorage(tempState);
+			return tempState;
+		case REMOVE_ITEM_FAILED:
+			tempState = {
+				...state,
+				error:action.error
+			}
+			saveToStorage(tempState);
+			return tempState;
+		case EDIT_ITEM_SUCCESS:
+			tempState = {
+				...state,
+				error:""
+			}
+			saveToStorage(tempState);
+			return tempState;
+		case EDIT_ITEM_FAILED:
+			tempState = {
+				...state,
+				error:action.error
+			}
+			saveToStorage(tempState);
+			return tempState;			
+		case CLEAR_SHOPPING_STATE:
+			tempState = {
+				list:[],
+				error:""
+			}
+			saveToStorage(tempState);
+			return tempState;
+		default:
+			return state;
+	}
+}
