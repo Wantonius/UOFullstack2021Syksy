@@ -15,31 +15,7 @@ class App extends React.Component {
 	
 
 	
-	addToList = async (item) => {
-		let request = {
-			method:"POST",
-			mode:"cors",
-			headers:{"Content-type":"application/json",
-					"token":this.props.token},
-			body:JSON.stringify(item)
-		}
-		this.setError("");
-		this.setLoading(true);
-		let response = await fetch("/api/shopping",request).catch(error => console.log(error))
-		this.setLoading(false);
-		if(!response) {
-			return;
-		}
-		if(response.ok) {
-			this.getList();
-		} else {
-			if(response.status === 403) {
-				this.clearState();
-				this.setError("Session has expired! Logging you out!");
-			}
-			console.log("Server responded with a status:",response.status)
-		}
-	}
+
 	
 	removeFromList = async (id) => {
 		let request = {
