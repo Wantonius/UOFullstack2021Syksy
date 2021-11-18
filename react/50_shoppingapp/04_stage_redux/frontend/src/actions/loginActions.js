@@ -35,6 +35,38 @@ export const register = (user) => {
 		}
 	}
 }
+	login = async (user) => {
+		let request = {
+			method:"POST",
+			mode:"cors",
+			headers:{"Content-type":"application/json"},
+			body:JSON.stringify(user)
+		}
+		this.setError("");
+		this.setLoading(true);
+		let response = await fetch("/login",request).catch(error => console.log("There was an error logging in:",error));
+		this.setLoading(false);
+		if(!response) {
+			return;
+		}
+		if(response.ok) {
+			let data = await response.json().catch(error => this.setError("Failed to parse JSON. Please, try again!"))
+			if(!data) {
+				return;
+			}
+			this.setState({
+				isLogged:true,
+				token:data.token
+			},() => {
+				this.getList();
+				this.saveToStorage();
+			})			
+		} else {
+			this.setError("Login Failed! Server responded with a status:"+response.statusText);
+		}
+	}
+
+
 //ACTION CREATORS
 
 export const loading = () => {
@@ -58,6 +90,20 @@ export const registerSuccess = () => {
 export const registerFailed = (error) => {
 	return {
 		type:REGISTER_FAILED,
+		error:error
+	}
+}
+
+export const loginSuccess = (token) => {
+	return {
+		type:LOGIN_SUCCESS,
+		token:token
+	}
+}
+
+export const loginFailed = (error) => {
+	return {
+		type:LOGIN_FAILED,
 		error:error
 	}
 }
