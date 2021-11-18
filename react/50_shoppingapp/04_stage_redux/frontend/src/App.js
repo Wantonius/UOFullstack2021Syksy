@@ -10,33 +10,7 @@ import {connect} from 'react-redux';
 class App extends React.Component {
 
 //REST API		
-	removeFromList = async (id) => {
-		let request = {
-			method:"DELETE",
-			mode:"cors",
-			headers:{"Content-type":"application/json",
-					"token":this.props.token}
-		}
-		this.setError("");
-		this.setLoading(true);
-		const response = await fetch("/api/shopping/"+id,request).catch(error => console.log(error))
-		this.setLoading(false);
-		if(!response) {
-			return;
-		}
-		if(response.ok) {
-			this.getList()
-		} else {
-			if(response.status === 403) {
-				this.clearState();
-				this.setError("Session has expired! Logging you out!");
-			}
-			if(response.status === 404) {
-				this.getList();
-			}			
-			console.log("Failed to remove item from list. Server responded with a status:",response.status)
-		}
-	}
+
 	
 	editItem = async (item) => {
 		let request = {

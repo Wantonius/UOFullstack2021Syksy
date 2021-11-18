@@ -72,6 +72,37 @@ export const addToList = (token,item) => {
 		}
 	}
 }
+
+export const removeFromList = (token,id) => {
+	return async (dispatch) => {
+		let request = {
+			method:"DELETE",
+			mode:"cors",
+			headers:{"Content-type":"application/json",
+					"token":token}
+		}
+		dispatch(loading());
+		const response = await fetch("/api/shopping/"+id,request).catch(error => console.log(error))
+		dispatch(stopLoading());
+		if(!response) {
+			dispatch(removeItemFailed("There was an error with the connection"));
+			return;
+		}
+		if(response.ok) {
+			dispatch(getList(token));
+			dispatch(removeItemSuccess());
+		} else {
+			if(response.status === 403) {
+				dispatch(clearShoppingState());
+				dispatch(clearLoginState());
+				dispatch(removeItemFailed("Your session has expired. Logging you out!"))
+			} else {
+				dispatch(removeItemFailed("Server responded with a status:"+response.status));
+			}
+			
+		}
+	}
+}
 //ACTION CREATORS
 
 export const fetchListSuccess = (list) => {
