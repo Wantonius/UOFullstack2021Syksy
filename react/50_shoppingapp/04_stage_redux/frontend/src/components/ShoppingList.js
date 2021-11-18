@@ -4,7 +4,7 @@ import Row from './Row';
 import RemoveRow from './RemoveRow';
 import EditRow from './EditRow';
 import {connect} from 'react-redux';
-import {removeFromList} from '../actions/shoppingActions';
+import {removeFromList,editItem} from '../actions/shoppingActions';
 
 class ShoppingList extends React.Component {
 	
@@ -43,7 +43,7 @@ class ShoppingList extends React.Component {
 	}
 	
 	editItem = (item) => {
-		this.props.editItem(item);
+		this.props.dispatch(editItem(this.props.token,item));
 		this.cancel();
 	}
 	
