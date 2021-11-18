@@ -8,15 +8,8 @@ import LoginPage from './components/LoginPage';
 import {connect} from 'react-redux';
 
 class App extends React.Component {
-	
 
-	
-//REST API	
-	
-
-	
-
-	
+//REST API		
 	removeFromList = async (id) => {
 		let request = {
 			method:"DELETE",
@@ -85,13 +78,12 @@ class App extends React.Component {
 						(<LoginPage	/>)
 					}/>
 					<Route path="/list" render={() => this.props.isLogged ?
-						(<ShoppingList list={this.state.list}
-						removeFromList={this.removeFromList}
+						(<ShoppingList removeFromList={this.removeFromList}
 						editItem={this.editItem}/>) :
 						(<Redirect to="/"/>)
 					}/>
 					<Route path="/form" render={() =>  this.props.isLogged ?
-						(<ShoppingForm addToList={this.addToList}/>):
+						(<ShoppingForm />):
 						(<Redirect to="/"/>)
 					}/>
 					<Route render={() => this.props.isLogged ? 
@@ -106,8 +98,8 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		isLogged:state.isLogged,
-		token:state.token
+		isLogged:state.login.isLogged,
+		token:state.login.token
 	}
 }
 

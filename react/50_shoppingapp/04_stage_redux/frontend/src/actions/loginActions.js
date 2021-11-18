@@ -1,3 +1,5 @@
+import {getList,clearShoppingState} from './shoppingActions';
+
 //ACTION CONSTANTS
 export const LOADING = "LOADING";
 export const STOP_LOADING = "STOP_LOADING";
@@ -56,6 +58,7 @@ export const login = (user) => {
 				return;
 			}
 			dispatch(loginSuccess(data.token));
+			dispatch(getList(data.token));
 		} else {
 			dispatch(loginFailed("Login Failed! Server responded with a status:"+response.statusText));
 		}
@@ -74,12 +77,15 @@ export const logout = (token) => {
 		let response = await fetch("/logout",request).catch(error => console.log("There was an error logging out:",error))
 		if(!response) {
 			dispatch(logoutFailed("There was an error connecting. Logging you out!"));
+			dispatch(clearShoppingState());
 			return;
 		}
 		if(response.ok) {
 			dispatch(logoutSuccess());
+			dispatch(clearShoppingState());
 		} else {
 			dispatch(logoutFailed("Server responded with no session found. Logging you out!"));
+			dispatch(clearShoppingState());
 		}
 	}
 }
