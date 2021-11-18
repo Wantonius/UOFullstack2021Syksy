@@ -12,7 +12,35 @@ export const CLEAR_SHOPPING_STATE = "CLEAR_SHOPPING_STATE";
 
 //ASYNC ACTION CREATORS
 
-
+export const getList = (token) => {
+	return async (dispatch) => {
+		let request = {
+			method:"GET",
+			mode:"cors",
+			headers:{"Content-type":"application/json",
+					"token":token}
+		}
+		dispatch(loading());
+		let response = await fetch("/api/shopping",request).catch(error => console.log(error))
+		dispatch(stopLoading());
+		if(!response) {
+			dispatch(fetchListFailed("There was an error with the connection"))
+			return;
+		}
+		if(response.ok) {
+			let data = await response.json();
+			dispatch(fetchListSuccess(data));
+		} else {
+			if(response.status === 403) {
+				dispatch(clearLoginState());
+				dispatch(clearShoppingState());
+				dispatch(fetchListFailed("Your session expired. Logging you out!"));
+			} else {
+				dispatch(fetchListFailed("Server responded with a status:"+response.status));
+			}
+		}
+	}
+}
 //ACTION CREATORS
 
 export const fetchListSuccess = (list) => {
