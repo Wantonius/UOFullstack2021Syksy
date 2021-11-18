@@ -3,8 +3,9 @@ import {Table} from 'semantic-ui-react';
 import Row from './Row';
 import RemoveRow from './RemoveRow';
 import EditRow from './EditRow';
+import {connect} from 'react-redux';
 
-export default class ShoppingList extends React.Component {
+class ShoppingList extends React.Component {
 	
 	constructor(props) {
 		super(props);
@@ -81,3 +82,12 @@ export default class ShoppingList extends React.Component {
 		) 
 	}	
 }
+
+const mapStateToProps = (state) => {
+	return {
+		token:state.login.token,
+		list:state.shopping.list
+	}
+}
+
+export default connect(mapStateToProps)(ShoppingList);
