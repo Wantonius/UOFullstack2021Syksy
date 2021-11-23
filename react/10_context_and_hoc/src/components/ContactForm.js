@@ -52,7 +52,7 @@ class ContactForm extends React.Component {
 						value={this.state.email}/>
 				<br/>
 				<label htmlFor="phone">Phone</label>
-				<input type="text"
+				<input type="phone"
 						name="phone"
 						onChange={this.onChange}
 						value={this.state.phone}/>
