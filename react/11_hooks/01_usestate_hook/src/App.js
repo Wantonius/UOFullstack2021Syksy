@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import {useState} from 'react';
 import ShoppingForm from './ShoppingForm';
+import ShoppingList from './ShoppingList';
 
 function App() {
 	
@@ -33,7 +34,8 @@ function App() {
 	return (
 		<div className="App">
 			<ShoppingForm addToList={addToList}/>
-    
+			<hr/>
+			<ShoppingList list={state.list} removeFromList={removeFromList}/>
 		</div>
 	);
 }
