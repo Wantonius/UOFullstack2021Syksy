@@ -5,10 +5,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'semantic-ui-css/semantic.min.css'
 import {BrowserRouter} from 'react-router-dom'
+import StateProvider from './statemanager/provider/StateProvider';
 ReactDOM.render(
   <React.StrictMode>
   <BrowserRouter>
+  <StateProvider>
     <App />
+  </StateProvider>
   </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
