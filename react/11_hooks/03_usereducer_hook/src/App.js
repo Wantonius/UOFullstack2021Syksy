@@ -14,7 +14,7 @@ const listReducer = (state,action) => {
 	switch(action.type) {
 		case "ADD_TO_LIST":
 			action.item.id = state.id;
-			tempList = state.list.concat(item);
+			tempList = state.list.concat(action.item);
 			return {
 				list:tempList,
 				id:state.id+1
@@ -32,30 +32,21 @@ const listReducer = (state,action) => {
 
 function App() {
 	
-	const [state,setState] = useState({
-		list:[],
-		id:100
-	})
+	const [state,dispatch] = useReducer(listReducer,initialState);
 	
 	const addToList = (item) => {
-		item.id = state.id;
-		setState(state => {
-			return {
-				list:state.list.concat(item),
-				id:state.id+1
-			}
+		dispatch({
+			type:"ADD_TO_LIST",
+			item:item
 		})
 	}
 	
 	const removeFromList = (id) => {
-		setState(state => {
-			let tempList = state.list.filter(item => id !== item.id)
-			return {
-				...state,
-				list:tempList
-			}
+		dispatch({
+			type:"REMOVE_FROM_LIST",
+			id:id
 		})
-	} 
+	}
 	
 	return (
 		<div className="App">
