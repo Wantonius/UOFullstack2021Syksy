@@ -80,7 +80,102 @@ const useAction = () => {
 					return;
 				}
 			} else {
-				
+				if(urlRequest.action === "register") {
+					if(response.status === 409) {
+						dispatch({
+							type:ActionConstants.REGISTER_FAILED,
+							error:"Username already in use"
+						})
+						return
+					}
+					dispatch({
+						type:ActionConstants.REGISTER_FAILED,
+						error:"Error! Server responded with a status:"+response.status
+					})
+					return;
+				}
+				if(urlRequest.action === "login") {
+					dispatch({
+						type:ActionConstants.LOGIN_FAILED,
+						error:"Wrong username or password"
+					})
+					return;
+				}
+				if(urlRequest.action === "logout") {
+					dispatch({
+						type:ActionConstants.LOGOUT_FAILED,
+						error:"Server responded with an error. Logging you out."
+					})
+					return;
+				}
+				if(urlRequest.action === "getlist") {
+					if(response.status === 403) {
+						dispatch({
+							type:ActionConstants.LOGOUT_SUCCESS
+						})
+						dispatch({
+							type:ActionConstants.FETCH_LIST_FAILED,
+							error:"Session has expired. Logging you out!"
+						})
+						return;
+					}
+					dispatch({
+						type:ActionConstants.FETCH_LIST_FAILED,
+						error:"Server responded with a status:"+response.status
+					})
+					return;
+				}
+				if(urlRequest.action === "additem") {
+					if(response.status === 403) {
+						dispatch({
+							type:ActionConstants.LOGOUT_SUCCESS
+						})
+						dispatch({
+							type:ActionConstants.ADD_ITEM_FAILED,
+							error:"Session has expired. Logging you out!"
+						})
+						return;
+					}
+					dispatch({
+						type:ActionConstants.ADD_ITEM_FAILED,
+						error:"Server responded with a status:"+response.status
+					})
+					return;
+				}
+				if(urlRequest.action === "removeitem") {
+					if(response.status === 403) {
+						dispatch({
+							type:ActionConstants.LOGOUT_SUCCESS
+						})
+						dispatch({
+							type:ActionConstants.REMOVE_ITEM_FAILED,
+							error:"Session has expired. Logging you out!"
+						})
+						return;
+					}
+					dispatch({
+						type:ActionConstants.REMOVE_ITEM_FAILED,
+						error:"Server responded with a status:"+response.status
+					})
+					return;
+				}
+				if(urlRequest.action === "edititem") {
+					if(response.status === 403) {
+						dispatch({
+							type:ActionConstants.LOGOUT_SUCCESS
+						})
+						dispatch({
+							type:ActionConstants.EDIT_ITEM_FAILED,
+							error:"Session has expired. Logging you out!"
+						})
+						return;
+					}
+					dispatch({
+						type:ActionConstants.EDIT_ITEM_FAILED,
+						error:"Server responded with a status:"+response.status
+					})
+					return;
+				}
 			}
 		}
 		
