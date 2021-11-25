@@ -1,19 +1,20 @@
-import React from 'react';
+import {useState} from 'react';
 import {Form,Button} from 'semantic-ui-react';
+import useAction from '../statemanager/useaction';
 
-export default class ShoppingForm extends React.Component {
+const ShoppingForm = (props) => {
 	
-	constructor(props) {
-		super(props);
-		this.state = {
-			type:"",
-			count:0,
-			price:0
-		}
-	}
+	const [state,setState] = useState({
+		type:"",
+		count:0,
+		price:0
+	})
 	
-	onChange = (event) => {
-		this.setState({
+	const {addItem} = useAction();
+	
+	const onChange = (event) => {
+		setState({
+			...state,
 			[event.target.name]:event.target.value
 		})
 	}
