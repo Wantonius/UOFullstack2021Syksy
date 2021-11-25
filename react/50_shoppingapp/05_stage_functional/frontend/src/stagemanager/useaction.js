@@ -14,7 +14,78 @@ const useAction = () => {
 	const dispatch = useContext(ActionContext);
 	const state = useAppState();
 	
-	useEffect(() => {},[urlRequest]);
+	useEffect(() => {
+		if(urlRequest.url === "") {
+			return
+		}
+		const fetchData = async () => {
+			dispatch({
+				type:ActionConstants.LOADING			
+			})
+			const response = await fetch(urlRequest.url,urlRequest.request);
+			dispatch({
+				type:ActionConstants.STOP_LOADING			
+			})
+			if(!response) {
+				return;
+			}
+			if(response.ok) {
+				if(urlRequest.action === "register") {
+					dispatch({
+						type:ActionConstants.REGISTER_SUCCESS
+					})
+					return;
+				}
+				if(urlRequest.action === "login") {
+					const data = await response.json();
+					dispatch({
+						type:ActionConstants.LOGIN_SUCCESS,
+						token:data.token
+					})
+					getList(data.token);
+				}
+				if(urlRequest.action === "logout") {
+					dispatch({
+						type:ActionConstants.LOGOUT_SUCCESS
+					})
+					return;
+				}
+				if(urlRequest.action === "getlist") {
+					const list = await response.json();
+					dispatch({
+						type:ActionConstants.FETCH_LIST_SUCCESS,
+						list:list
+					})
+					return;
+				}
+				if(urlRequest.action === "additem") {
+					dispatch({
+						type:ActionConstants.ADD_ITEM_SUCCESS
+					})
+					getList(state.token);
+					return;
+				}
+				if(urlRequest.action === "removeitem") {
+					dispatch({
+						type:ActionConstants.REMOVE_ITEM_SUCCESS
+					})
+					getList(state.token);
+					return
+				}
+				if(urlRequest.action === "edititem") {
+					dispatch({
+						type:ActionConstants.EDIT_ITEM_SUCCESS
+					})
+					getList(state.token);
+					return;
+				}
+			} else {
+				
+			}
+		}
+		
+		fetchData();
+	},[urlRequest]);
 	
 	const register = (user) => {
 		setUrlRequest({
@@ -55,14 +126,14 @@ const useAction = () => {
 		})
 	}
 	
-	const getList = () => {
+	const getList = (token) => {
 		setUrlRequest({
 			url:"/api/shopping",
 			request:{
 				method:"GET",
 				mode:"cors",
 				headers:{"Content-type":"application/json",
-						"token":state.token}
+						"token":token}
 			},
 			action:"getlist"
 		})
