@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import {Table} from 'semantic-ui-react';
 import Row from './Row';
 import RemoveRow from './RemoveRow';
@@ -10,7 +10,13 @@ const ShoppingList = (props) =>  {
 	
 	const appstate = useAppState();
 	
-	const {removeItem,editItem} = useAction();
+	const {removeItem,editItem,getList} = useAction();
+	
+	useEffect(() => {
+		if(appstate.isLogged) {
+			getList(appstate.token);
+		}
+	},[]);
 	
 	const [state,setState] = useState({
 		removeIndex:-1,

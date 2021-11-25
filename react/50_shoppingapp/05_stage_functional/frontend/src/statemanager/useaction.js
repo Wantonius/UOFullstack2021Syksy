@@ -42,7 +42,6 @@ const useAction = () => {
 						type:ActionConstants.LOGIN_SUCCESS,
 						token:data.token
 					})
-					getList(data.token);
 				}
 				if(urlRequest.action === "logout") {
 					dispatch({
@@ -263,7 +262,7 @@ const useAction = () => {
 
 	const editItem = (item) => {
 		setUrlRequest({
-			url:"/api/shopping/"+item.id,
+			url:"/api/shopping/"+item._id,
 			request:{
 				method:"PUT",
 				mode:"cors",
@@ -281,7 +280,8 @@ const useAction = () => {
 		logout,
 		addItem,
 		removeItem,
-		editItem
+		editItem,
+		getList
 	}
 }
 
