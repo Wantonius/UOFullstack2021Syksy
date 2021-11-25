@@ -275,14 +275,14 @@ const useAction = () => {
 		})
 	}
 
-	return useMemo(() => ({
+	return {
 		register,
 		login,
 		logout,
 		addItem,
 		removeItem,
 		editItem
-	}),[dispatch])
+	}
 }
 
 export default useAction;
