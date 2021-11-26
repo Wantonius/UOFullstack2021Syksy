@@ -1,0 +1,25 @@
+Heroku setup:
+
+1. Luo tunnarit heroku.com
+2. Lataa Heroku CLI (https://devcenter.heroku.com/articles/heroku-cli)
+3. Luo hakemisto ja alusta sinne git (git init)
+4. Luo heroku-applari kyseisessä hakemistossa. (heroku create <app-name>)
+5. Tarkista, että git remote osoittaa herokuun (git remote)
+6. Luo frontendistä optimoitu build (npm run build, lopputulos build-hakemistossa)
+7. Lisää backendiin (server.js) staattisten tiedostojen tuki (app.use(express.static...-loitsu) sekä tarkista että app.listen komennon portti osoittaa muuttujaan process.env.PORT. Heroku valitsee portin applarille. Sitä ei voi itse määrätä.
+(https://expressjs.com/en/starter/static-files.html)
+8. Siirrä optimoitu build backendiin /build hakemiston alle ja laita
+express.static palvelemaan sitä.
+9. Kopio backend optimoituine frontend-buildeineen heroku-hakemistoon ILMAN 
+node_modules hakemistoa.
+10. Luo Procfile hakemistoon (web: node server.js). https://devcenter.heroku.com/articles/procfile 
+11. Lisää tarvittavat environmental variablet, herokussa config vars. (Mongo cloudin user, password ja url)
+Käsky on heroku config:set VARIABLE=value tai käytä netissä herokun dashboardia.
+12. git add . / git commit -m "first commit" / git push heroku master
+13. heroku logs --tail
+14. Seuraa virheet ja korjaa.
+15. Tarvittaessa uudestaan git add etc loitsut kunnes applari on tilassa "up" ilman virheitä.
+
+
+MUISTA PÄIVITTÄÄ MONGO CLOUDIN NETWORK ACCESS SIELLÄ SIVUILLA! 
+Muuten herokusta ei pääse kiinni mongo cloudiin. Helpoin tapa on lisätä sinne 0.0.0.0/0.
